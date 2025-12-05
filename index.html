@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>정부지원사업 공고 해결사</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Public Sans"', "sans-serif"],
+              sans: ['"Public Sans"', "sans-serif"],
+            },
+            colors: {
+              "primary": "#197fe6",
+              "corporate-blue": "#005EA2",
+              "light-blue-bg": "#E6F0FA",
+              "neutral-light-gray": "#F8F9FA",
+              "neutral-medium-gray": "#6B7280",
+              "neutral-dark-gray": "#111827",
+              "neutral-white": "#FFFFFF",
+              "background-light": "#f6f7f8",
+              "background-dark": "#111921",
+            },
+            borderRadius: {
+              "xl": "0.75rem",
+              "2xl": "1rem",
+            }
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Public Sans', sans-serif;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.10.1",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1"
+  }
+}
+</script>
+</head>
+  <body class="bg-background-light text-neutral-dark-gray antialiased h-screen overflow-hidden">
+    <div id="root" class="h-full w-full"></div>
+  </body>
+</html>
