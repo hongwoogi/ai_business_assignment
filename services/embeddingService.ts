@@ -4,8 +4,6 @@ const apiKey = import.meta.env.VITE_GEMINI_EMBEDDING_API_KEY;
 
 if (!apiKey) {
     console.warn('Gemini Embedding API key not found.');
-} else {
-    console.log('Gemini Embedding API Key loaded:', apiKey.substring(0, 10) + '...');
 }
 
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
@@ -58,8 +56,7 @@ export async function generateEmbeddings(chunks: string[]): Promise<number[][]> 
  */
 export function cosineSimilarity(a: number[], b: number[]): number {
     if (a.length !== b.length) {
-        console.error(`Vector dimension mismatch! Query: ${a.length}, Stored: ${b.length}`);
-        throw new Error(`Vectors must have the same length (Query: ${a.length}, Stored: ${b.length})`);
+        throw new Error('Vectors must have the same length');
     }
 
     let dotProduct = 0;

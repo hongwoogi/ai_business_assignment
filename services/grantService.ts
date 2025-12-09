@@ -313,10 +313,20 @@ export async function getGrantEmbeddings(
             return localEmbeddings.get(grantId) || [];
         }
 
-        return data.map((row: any) => ({
-            content: row.content,
-            embedding: row.embedding
-        }));
+        return data.map((row: any) => {
+            let embedding = row.embedding;
+            if (typeof embedding === 'string') {
+                try {
+                    embedding = JSON.parse(embedding);
+                } catch (e) {
+                    console.error('Failed to parse embedding string:', e);
+                }
+            }
+            return {
+                content: row.content,
+                embedding: embedding
+            };
+        });
     }
 
     return localEmbeddings.get(grantId) || [];

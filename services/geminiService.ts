@@ -77,7 +77,7 @@ ${content}
   "deadline": "결과보고 마감일 또는 사업종료일",
   "description": "사업 개요 요약 (2-3문장)",
   "region": "지원 지역 (서울, 경기, 전국 등)",
-  "industry": "대상 분야 (IT/SW, 제조, 바이오/헬스 등)",
+  "industry": "대상 분야 (핵심 키워드 1-3개, 쉼표로 구분. 예: IT, 바이오, 제조)",
   "eligibility": "신청 자격 요약",
   "requiredDocuments": ["필요 서류1", "필요 서류2"]
 }`;

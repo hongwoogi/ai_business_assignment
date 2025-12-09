@@ -122,7 +122,11 @@ const GrantDetailPage: React.FC = () => {
               <h1 className="text-3xl font-bold text-neutral-dark-gray tracking-tight">{grant.title}</h1>
               <p className="text-sm font-medium text-neutral-medium-gray mt-2 flex items-center gap-2">
                 <span className="bg-slate-100 px-2 py-0.5 rounded text-xs text-slate-600 border border-slate-200">ID: #{grant.id}</span>
-                <span className="bg-blue-50 px-2 py-0.5 rounded text-xs text-corporate-blue border border-blue-100">{grant.industry}</span>
+                {grant.industry && grant.industry.split(',').map((ind, idx) => (
+                  <span key={idx} className="bg-blue-50 px-2 py-0.5 rounded text-xs text-corporate-blue border border-blue-100">
+                    {ind.trim()}
+                  </span>
+                ))}
               </p>
             </div>
             {grant.status === 'Open' ? (

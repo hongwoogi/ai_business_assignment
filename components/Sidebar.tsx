@@ -65,7 +65,7 @@ const Sidebar: React.FC = () => {
       g.id.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesRegion = selectedRegions.length === 0 || (g.region && selectedRegions.includes(g.region));
-    const matchesIndustry = selectedIndustries.length === 0 || (g.industry && selectedIndustries.includes(g.industry));
+    const matchesIndustry = selectedIndustries.length === 0 || (g.industry && selectedIndustries.some(ind => g.industry?.includes(ind)));
 
     const statusLabel = getStatusLabel(g.status || '');
     const matchesStatus = selectedStatuses.length === 0 || selectedStatuses.includes(statusLabel);
