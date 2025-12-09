@@ -20,11 +20,11 @@ const AddGrantModal: React.FC<AddGrantModalProps> = ({ onClose, onGrantAdded }) 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0];
-            if (file.type === 'application/pdf') {
+            if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.hwpx')) {
                 setSelectedFile(file);
                 setStatus(null);
             } else {
-                alert('PDF 파일만 업로드할 수 있습니다.');
+                alert('PDF 또는 HWPX 파일만 업로드할 수 있습니다.');
             }
         }
     };
@@ -32,11 +32,11 @@ const AddGrantModal: React.FC<AddGrantModalProps> = ({ onClose, onGrantAdded }) 
     const handleDrop = (e: React.DragEvent) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
-        if (file && file.type === 'application/pdf') {
+        if (file && (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.hwpx'))) {
             setSelectedFile(file);
             setStatus(null);
         } else {
-            alert('PDF 파일만 업로드할 수 있습니다.');
+            alert('PDF 또는 HWPX 파일만 업로드할 수 있습니다.');
         }
     };
 
@@ -104,7 +104,7 @@ const AddGrantModal: React.FC<AddGrantModalProps> = ({ onClose, onGrantAdded }) 
                             type="file"
                             className="hidden"
                             ref={fileInputRef}
-                            accept=".pdf"
+                            accept=".pdf, .hwpx"
                             onChange={handleFileChange}
                             disabled={isProcessing}
                         />
@@ -112,7 +112,9 @@ const AddGrantModal: React.FC<AddGrantModalProps> = ({ onClose, onGrantAdded }) 
                         {selectedFile ? (
                             <>
                                 <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                                    <span className="material-symbols-outlined text-4xl text-corporate-blue">picture_as_pdf</span>
+                                    <span className="material-symbols-outlined text-4xl text-corporate-blue">
+                                        {selectedFile.name.endsWith('.hwpx') ? 'description' : 'picture_as_pdf'}
+                                    </span>
                                 </div>
                                 <p className="text-lg font-medium text-neutral-dark-gray">{selectedFile.name}</p>
                                 <p className="text-sm text-neutral-medium-gray mt-1">
@@ -132,8 +134,8 @@ const AddGrantModal: React.FC<AddGrantModalProps> = ({ onClose, onGrantAdded }) 
                                 <div className="h-16 w-16 bg-blue-50 rounded-full flex items-center justify-center mb-4">
                                     <span className="material-symbols-outlined text-4xl text-corporate-blue">upload_file</span>
                                 </div>
-                                <p className="text-lg font-medium text-neutral-dark-gray">공고문 PDF를 업로드하세요</p>
-                                <p className="text-sm text-neutral-medium-gray mt-1 mb-3">파일을 드래그 앤 드롭하거나 클릭하여 선택</p>
+                                <p className="text-lg font-medium text-neutral-dark-gray">공고문 파일을 업로드하세요</p>
+                                <p className="text-sm text-neutral-medium-gray mt-1 mb-3">PDF 또는 HWPX 파일을 드래그하거나 선택</p>
                                 <button className="text-sm font-semibold text-corporate-blue hover:underline">파일 찾기</button>
                             </>
                         )}

@@ -1,5 +1,6 @@
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { parsePDF, chunkText } from './pdfParser';
+import { parseHWPX } from './hwpxParser';
 import { analyzeGrantDocument, GrantAnalysis } from './geminiService';
 import { generateEmbeddings } from './embeddingService';
 import { Grant } from '../types';
@@ -17,22 +18,36 @@ export interface ProcessingStatus {
 export type StatusCallback = (status: ProcessingStatus) => void;
 
 /**
- * Process uploaded PDF and save to database
+ * Process uploaded PDF or HWPX and save to database
  */
 export async function processGrantDocument(
     file: File,
     onStatusChange: StatusCallback
 ): Promise<Grant> {
     try {
-        // Step 1: Parse PDF
-        onStatusChange({ step: 'parsing', message: 'PDF 파일을 파싱하고 있습니다...', progress: 10 });
-        const { text, pageCount } = await parsePDF(file);
+        // Step 1: Parse Document
+        onStatusChange({ step: 'parsing', message: '문서를 파싱하고 있습니다...', progress: 10 });
 
-        console.log(`PDF 파싱 완료: ${pageCount} 페이지, ${text.length} 글자 추출됨`);
+        let text = '';
+        let pageCount = 0;
+
+        if (file.name.toLowerCase().endsWith('.hwpx')) {
+            console.log('Detected HWPX file');
+            const result = await parseHWPX(file);
+            text = result.text;
+            pageCount = result.pageCount;
+        } else {
+            console.log('Detected PDF file');
+            const result = await parsePDF(file);
+            text = result.text;
+            pageCount = result.pageCount;
+        }
+
+        console.log(`파싱 완료: ${pageCount} 페이지/섹션, ${text.length} 글자 추출됨`);
         console.log('추출된 텍스트 미리보기:', text.substring(0, 500));
 
         if (!text || text.length < 10) {
-            throw new Error(`PDF에서 텍스트를 추출할 수 없습니다. (추출된 글자 수: ${text?.length || 0}) 스캔된 이미지 PDF일 수 있습니다.`);
+            throw new Error(`문서에서 텍스트를 추출할 수 없습니다. (추출된 글자 수: ${text?.length || 0}) 텍스트가 없는 이미지 문서일 수 있습니다.`);
         }
 
         // Step 2: Analyze with Gemini
@@ -153,6 +168,8 @@ async function saveGrant(analysis: GrantAnalysis, rawContent: string): Promise<G
 
         if (error) {
             console.error('Error saving grant to Supabase:', error);
+            // Alert the user about the DB error for debugging
+            alert(`DB 저장 실패: ${error.message || JSON.stringify(error)}`);
             // Fallback to local storage
             localGrants.push(grant);
         }
