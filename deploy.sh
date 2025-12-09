@@ -7,6 +7,11 @@ set -e
 
 echo "🚀 정부지원사업 공고 해결사 배포 시작..."
 
+# 최신 코드 가져오기
+echo "📥 Git Pull 수행 중..."
+git pull origin main || { echo "❌ Git Pull 실패"; exit 1; }
+
+
 # Docker 설치 확인
 if ! command -v docker &> /dev/null; then
     echo "📦 Docker 설치 중..."
