@@ -1,8 +1,6 @@
 import * as pdfjsLib from 'pdfjs-dist';
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
-
-// Set worker source for pdf.js using the bundled worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+// Set worker source for pdf.js using the static file
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
 export interface ParsedPDFResult {
     text: string;
